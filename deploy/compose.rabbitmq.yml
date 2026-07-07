@@ -1,6 +1,6 @@
 services:
   rabbitmq:
-    image: ${DOCKERHUB_USERNAME}/cloudnative-rabbitmq:${IMAGE_TAG:-latest}
+    image: rabbitmq:4-management
     container_name: rabbitmq-cloudnative
     restart: unless-stopped
     hostname: rabbitmq

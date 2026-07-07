@@ -192,6 +192,8 @@ AZURE_B2C_JWK_SET_URI
 AZURE_B2C_AUDIENCE
 ```
 
+`deploy-rabbitmq.yml` ahora solo necesita `EC2_HOST`, `EC2_USER`, `EC2_SSH_KEY`, `RABBITMQ_USERNAME` y `RABBITMQ_PASSWORD`. Los secretos de DockerHub siguen siendo necesarios para `deploy-microservices.yml`.
+
 ## Flujo de CI/CD
 
 ### 1. Desplegar RabbitMQ manualmente
@@ -204,11 +206,10 @@ Actions → Deploy RabbitMQ → Run workflow
 
 Ese workflow:
 
-1. Construye la imagen RabbitMQ custom desde `rabbitmq/Dockerfile`.
-2. La sube a DockerHub.
-3. Copia `deploy/compose.rabbitmq.yml` a EC2.
-4. Crea la red Docker `cloudnative-net`.
-5. Despliega RabbitMQ.
+1. Copia `deploy/compose.rabbitmq.yml` a EC2.
+2. Crea la red Docker `cloudnative-net`.
+3. Descarga la imagen oficial `rabbitmq:4-management` desde Docker Hub.
+4. Despliega RabbitMQ.
 
 ### 2. Desplegar microservicios automáticamente
 
