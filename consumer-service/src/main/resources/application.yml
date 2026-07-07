@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: consumer-service
+
+  rabbitmq:
+    host: ${RABBITMQ_HOST:rabbitmq}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:admin}
+    password: ${RABBITMQ_PASSWORD:admin123}
+    listener:
+      simple:
+        default-requeue-rejected: false
+        retry:
+          enabled: true
+          initial-interval: 2s
+          max-attempts: 3
+          multiplier: 2
+          max-interval: 10s
+
+server:
+  port: ${SERVER_PORT:8082}
+
+app:
+  rabbitmq:
+    exchange: pedidos.exchange
+    queue: pedidos.queue
+    routing-key: pedidos.creado
+    dlx-exchange: pedidos.dlx.exchange
+    dlq: pedidos.dlq
+    dlq-routing-key: pedidos.dlq
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always

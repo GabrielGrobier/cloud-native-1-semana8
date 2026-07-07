@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: producer-service
+
+  rabbitmq:
+    host: ${RABBITMQ_HOST:rabbitmq}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:admin}
+    password: ${RABBITMQ_PASSWORD:admin123}
+    listener:
+      simple:
+        default-requeue-rejected: false
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${AZURE_B2C_ISSUER_URI}
+          jwk-set-uri: ${AZURE_B2C_JWK_SET_URI}
+
+server:
+  port: ${SERVER_PORT:8081}
+
+app:
+  security:
+    audience: ${AZURE_B2C_AUDIENCE:}
+  rabbitmq:
+    exchange: pedidos.exchange
+    queue: pedidos.queue
+    routing-key: pedidos.creado
+    dlx-exchange: pedidos.dlx.exchange
+    dlq: pedidos.dlq
+    dlq-routing-key: pedidos.dlq
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    org.springframework.security: INFO
