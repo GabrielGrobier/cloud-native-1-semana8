@@ -12,6 +12,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Prepare deployment directories on EC2
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            set -e
+            mkdir -p /home/ec2-user/micro-servicio1
+            mkdir -p /home/ec2-user/micro-servicio2
+            mkdir -p /home/ec2-user/rabbitmq
+
       - name: Copy RabbitMQ compose file to EC2
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -20,6 +32,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           source: "deploy/compose.rabbitmq.yml"
           target: "/home/ec2-user/rabbitmq"
+          strip_components: 1
 
       - name: Deploy RabbitMQ container
         uses: appleboy/ssh-action@v1.0.3
@@ -34,9 +47,6 @@ jobs:
           script: |
             set -e
 
-            mkdir -p /home/ec2-user/micro-servicio1
-            mkdir -p /home/ec2-user/micro-servicio2
-            mkdir -p /home/ec2-user/rabbitmq
             cd /home/ec2-user/rabbitmq
 
             docker network create cloudnative-net || true

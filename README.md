@@ -211,6 +211,7 @@ Ese workflow:
 3. Descarga la imagen oficial `rabbitmq:4-management` desde Docker Hub.
 4. Despliega RabbitMQ.
 5. Usa la carpeta `/home/ec2-user/rabbitmq` en la instancia.
+6. Copia `compose.rabbitmq.yml` directamente dentro de esa carpeta.
 
 ### 2. Desplegar microservicios automáticamente
 
@@ -229,7 +230,7 @@ El workflow:
 3. Compila y prueba el consumer.
 4. Construye y sube la imagen `consumer-service`.
 5. Crea en la EC2 las carpetas `/home/ec2-user/micro-servicio1`, `/home/ec2-user/micro-servicio2` y `/home/ec2-user/rabbitmq`.
-6. Copia `deploy/compose.microservices.yml` a `/home/ec2-user/micro-servicio1`.
+6. Copia `compose.microservices.yml` directamente dentro de `/home/ec2-user/micro-servicio1`.
 7. Despliega ambos microservicios con Docker Compose desde `/home/ec2-user/micro-servicio1`.
 
 ## Endpoints útiles
