@@ -19,7 +19,7 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
           source: "deploy/compose.rabbitmq.yml"
-          target: "/opt/cloudnative-rabbitmq"
+          target: "/home/ec2-user/rabbitmq"
 
       - name: Deploy RabbitMQ container
         uses: appleboy/ssh-action@v1.0.3
@@ -34,8 +34,10 @@ jobs:
           script: |
             set -e
 
-            mkdir -p /opt/cloudnative-rabbitmq
-            cd /opt/cloudnative-rabbitmq
+            mkdir -p /home/ec2-user/micro-servicio1
+            mkdir -p /home/ec2-user/micro-servicio2
+            mkdir -p /home/ec2-user/rabbitmq
+            cd /home/ec2-user/rabbitmq
 
             docker network create cloudnative-net || true
 
@@ -44,7 +46,7 @@ jobs:
             RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
             EOF
 
-            docker compose -f deploy/compose.rabbitmq.yml --env-file .env pull
-            docker compose -f deploy/compose.rabbitmq.yml --env-file .env up -d
+            docker compose -f compose.rabbitmq.yml --env-file .env pull
+            docker compose -f compose.rabbitmq.yml --env-file .env up -d
 
             docker ps --filter name=rabbitmq-cloudnative
