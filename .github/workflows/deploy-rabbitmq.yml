@@ -47,7 +47,7 @@ jobs:
           script: |
             set -e
 
-            cd /home/ec2-user/rabbitmq
+            cd /home/${{ secrets.EC2_USER }}/rabbitmq
 
             docker network create cloudnative-net || true
 
