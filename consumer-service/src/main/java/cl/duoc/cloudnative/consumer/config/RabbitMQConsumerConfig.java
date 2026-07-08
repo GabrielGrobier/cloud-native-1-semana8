@@ -75,9 +75,9 @@ public class RabbitMQConsumerConfig {
 
     @Bean
     SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(
-            SimpleRabbitListenerContainerFactoryConfigurer configurer,
-            ConnectionFactory connectionFactory,
-            MessageConverter jsonMessageConverter
+            final SimpleRabbitListenerContainerFactoryConfigurer configurer,
+            final ConnectionFactory connectionFactory,
+            final MessageConverter jsonMessageConverter
     ) {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
         configurer.configure(factory, connectionFactory);
