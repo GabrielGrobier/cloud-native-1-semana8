@@ -6,6 +6,7 @@ import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.QueueBuilder;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
+import org.springframework.boot.autoconfigure.amqp.SimpleRabbitListenerContainerFactoryConfigurer;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
@@ -74,12 +75,14 @@ public class RabbitMQConsumerConfig {
 
     @Bean
     SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(
-            ConnectionFactory connectionFactory,
-            MessageConverter jsonMessageConverter
+            final SimpleRabbitListenerContainerFactoryConfigurer configurer,
+            final ConnectionFactory connectionFactory,
+            final MessageConverter jsonMessageConverter
     ) {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
-        factory.setConnectionFactory(connectionFactory);
+        configurer.configure(factory, connectionFactory);
         factory.setMessageConverter(jsonMessageConverter);
+        factory.setDefaultRequeueRejected(false);
         return factory;
     }
 }
