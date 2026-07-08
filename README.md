@@ -127,7 +127,13 @@ Respuesta esperada:
 
 En los logs del `consumer-service` deberías ver el mensaje procesado.
 
-Para probar la DLQ, envía un producto con el texto `ERROR`:
+Para probar la DLQ por error simulado, habilita antes la variable:
+
+```env
+CONSUMER_SIMULATE_ERROR_FOR_PRODUCT=true
+```
+
+Luego envía un producto con el texto `ERROR`:
 
 ```bash
 curl -X POST http://localhost:8081/api/pedidos \
