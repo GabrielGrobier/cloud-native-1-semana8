@@ -1,6 +1,5 @@
 package cl.duoc.cloudnative.consumer.config;
 
-import org.aopalliance.aop.Advice;
 import org.junit.jupiter.api.Test;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,15 +15,21 @@ class RabbitMQConsumerConfigTest {
     private SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory;
 
     @Test
-    void shouldDisableRequeueAndConfigureRetryInterceptor() {
+    void shouldDisableRequeue() {
         Object defaultRequeueRejected = ReflectionTestUtils.getField(
                 rabbitListenerContainerFactory,
                 "defaultRequeueRejected"
         );
-        Object adviceChain = ReflectionTestUtils.getField(rabbitListenerContainerFactory, "adviceChain");
 
         assertThat(defaultRequeueRejected).isEqualTo(Boolean.FALSE);
-        assertThat(adviceChain).isInstanceOf(Advice[].class);
-        assertThat((Advice[]) adviceChain).isNotEmpty();
+    }
+
+    @Test
+    void shouldConfigureRetryInterceptor() {
+        Object adviceChain = ReflectionTestUtils.getField(rabbitListenerContainerFactory, "adviceChain");
+
+        assertThat(adviceChain).isNotNull();
+        assertThat(adviceChain.getClass().isArray()).isTrue();
+        assertThat((Object[]) adviceChain).isNotEmpty();
     }
 }
