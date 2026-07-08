@@ -1,8 +1,8 @@
 package cl.duoc.cloudnative.consumer.config;
 
+import org.aopalliance.aop.Advice;
 import org.junit.jupiter.api.Test;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
-import org.aopalliance.aop.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.util.ReflectionTestUtils;
