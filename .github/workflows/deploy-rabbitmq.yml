@@ -20,9 +20,9 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             set -e
-            mkdir -p /home/ec2-user/micro-servicio1
-            mkdir -p /home/ec2-user/micro-servicio2
-            mkdir -p /home/ec2-user/rabbitmq
+            mkdir -p /home/${{ secrets.EC2_USER }}/micro-servicio1
+            mkdir -p /home/${{ secrets.EC2_USER }}/micro-servicio2
+            mkdir -p /home/${{ secrets.EC2_USER }}/rabbitmq
 
       - name: Copy RabbitMQ compose file to EC2
         uses: appleboy/scp-action@v0.1.7
